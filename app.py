@@ -5,18 +5,12 @@ from pythonfiles.Student_reset_pass import update_student_password
 from pythonfiles.rec_forgotpassword import update_password
 from pythonfiles.recruiter_register import register_recruiter
 from pythonfiles.create_job import add_job
-from pythonfiles.create_job import delete_job_by_id
-
 from pythonfiles.recruiter_home import get_all_jobs
 from pythonfiles.Student_home import apply_job, fetch_job_details, get_jobs_by_application_status
 from pythonfiles.recruiterslogin import *
 from pythonfiles.students_login import *
 from pythonfiles.Students_register import register_student
 from flask_cors import CORS
-from reportlab.pdfgen import canvas
-from flask import send_file
-from flask import Flask, render_template, request, redirect, session, url_for, flash
-import os
 
 app = Flask(__name__)
 app.secret_key = '2345'
@@ -84,14 +78,6 @@ def api_add_job():
 @app.route('/create_job_page')
 def create_job_page():
     return render_template('create_job.html')
-
-@app.route('/api/job_details/<int:job_id>', methods=['DELETE'])
-def delete_job(job_id):
-    success = delete_job_by_id(job_id)  # Call the function to delete the job from the database
-    if success:
-        return jsonify({'message': 'Job deleted successfully'}), 200
-    else:
-        return jsonify({'message': 'Job not found or could not be deleted'}), 404
 
 
 # +++++++++++++++++++++++++++ END OF CREATE JOB PAGE ++++++++++++++++++++++++++
@@ -218,5 +204,4 @@ def api_report_data():
 # ++++++++++++++++++++++++++++++++++++++ END OF REPORT PAGE +++++++++++++++++++++++++++++
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  
-    app.run(host="0.0.0.0", port=port,debug=True)
+    app.run(debug=True)
